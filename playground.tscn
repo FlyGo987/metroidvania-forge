@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://8lidg4hqe43w"]
 
-[ext_resource type="Texture2D" uid="uid://dd860n3iw55m1" path="res://icon.svg" id="1_rupst"]
+[ext_resource type="Texture2D" uid="uid://bn3bmyqingnk6" path="res://metroidvania_logo_icon.png" id="1_rupst"]
 
 [node name="Node2D" type="Node2D" unique_id=159420850]
 
 [node name="Icon" type="Sprite2D" parent="." unique_id=1718936907]
-position = Vector2(541, 323)
+position = Vector2(237, 125)
 texture = ExtResource("1_rupst")
