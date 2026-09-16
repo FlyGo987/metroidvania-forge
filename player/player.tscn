@@ -3,6 +3,9 @@
 [ext_resource type="Script" uid="uid://c7x33xpey6x8i" path="res://player/scirpts/player.gd" id="1_oul6g"]
 [ext_resource type="Script" uid="uid://55xw6dqq6fdy" path="res://player/states/idle.gd" id="2_g1dw6"]
 [ext_resource type="Script" uid="uid://b17sq6uall6eg" path="res://player/states/run.gd" id="3_yw30f"]
+[ext_resource type="Script" uid="uid://b31uxelqr2v0r" path="res://player/states/jump.gd" id="4_yw30f"]
+[ext_resource type="Script" uid="uid://cp2mwikase8e4" path="res://player/states/fall.gd" id="5_qjkh3"]
+[ext_resource type="PackedScene" uid="uid://1n5lkptfbcul" path="res://player/debug_jump_indicator.tscn" id="6_g6k8r"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_txtv6"]
 size = Vector2(18, 48)
@@ -12,6 +15,27 @@ size = Vector2(16, 46)
 
 [node name="Player" type="CharacterBody2D" unique_id=1161652229]
 script = ExtResource("1_oul6g")
+move_speed = 200.0
+
+[node name="States" type="Node" parent="." unique_id=992181907]
+
+[node name="Idle" type="Node" parent="States" unique_id=882439302]
+unique_name_in_owner = true
+script = ExtResource("2_g1dw6")
+
+[node name="Run" type="Node" parent="States" unique_id=763000992]
+unique_name_in_owner = true
+script = ExtResource("3_yw30f")
+
+[node name="Jump" type="Node" parent="States" unique_id=1984801014]
+unique_name_in_owner = true
+script = ExtResource("4_yw30f")
+metadata/_custom_type_script = "uid://dxuei03o0usmg"
+
+[node name="Fall" type="Node" parent="States" unique_id=1531482353]
+unique_name_in_owner = true
+script = ExtResource("5_qjkh3")
+metadata/_custom_type_script = "uid://dxuei03o0usmg"
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1610992881]
 texture = SubResource("PlaceholderTexture2D_txtv6")
@@ -21,10 +45,20 @@ offset = Vector2(0, -24)
 position = Vector2(0, -24)
 shape = SubResource("RectangleShape2D_txtv6")
 
-[node name="States" type="Node" parent="." unique_id=992181907]
+[node name="Label" type="Label" parent="." unique_id=1998408991]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.978828
+offset_top = -66.99765
+offset_right = 26.93026
+offset_bottom = -49.99765
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 12
+text = "state"
+horizontal_alignment = 1
 
-[node name="Idle" type="Node" parent="States" unique_id=882439302]
-script = ExtResource("2_g1dw6")
-
-[node name="Run" type="Node" parent="States" unique_id=763000992]
-script = ExtResource("3_yw30f")
+[node name="Debug Jump Indicator" parent="." unique_id=1072138611 instance=ExtResource("6_g6k8r")]

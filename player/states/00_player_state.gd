@@ -5,7 +5,11 @@ var player: Player
 var next_state: PlayerState
 
 #region /// states references
-#references to all other states
+@onready var idle: PlayerStateIdle = %Idle
+@onready var run: PlayerStateRun = %Run
+@onready var jump: PlayerState = %Jump
+@onready var fall: PlayerState = %Fall
+
 #endregion
 
 func init() -> void:
@@ -23,5 +27,5 @@ func handle_input(_event: InputEvent) -> PlayerState:
 func process(_delta: float) -> PlayerState:
 	return next_state
 	
-func physics_process(delta: float) ->  PlayerState:
+func physics_process(_delta: float) ->  PlayerState:
 	return next_state
