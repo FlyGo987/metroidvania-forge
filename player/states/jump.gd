@@ -7,13 +7,18 @@ func init() -> void:
 	
 func enter() -> void:
 	# play animations
-	player.velocity.y -= jump_velocity
+	player.add_debug_indicator(Color.LIME_GREEN)
+	player.velocity.y = -jump_velocity
 	pass
 	
 func exit() -> void:
+	player.add_debug_indicator(Color.YELLOW)  
 	pass
 	
-func handle_input(_event: InputEvent) -> PlayerState:
+func handle_input(event: InputEvent) -> PlayerState:
+	if event.is_action_released("jump"):
+		player.velocity.y *= 0.5
+		return fall
 	return next_state
 	
 func process(_delta: float) -> PlayerState:

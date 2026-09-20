@@ -5,15 +5,83 @@
 [ext_resource type="Script" uid="uid://b17sq6uall6eg" path="res://player/states/run.gd" id="3_yw30f"]
 [ext_resource type="Script" uid="uid://b31uxelqr2v0r" path="res://player/states/jump.gd" id="4_yw30f"]
 [ext_resource type="Script" uid="uid://cp2mwikase8e4" path="res://player/states/fall.gd" id="5_qjkh3"]
-[ext_resource type="PackedScene" uid="uid://1n5lkptfbcul" path="res://player/debug_jump_indicator.tscn" id="6_g6k8r"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_txtv6"]
-size = Vector2(18, 48)
+[ext_resource type="Script" uid="uid://c8wopydi64cim" path="res://player/states/crouch.gd" id="6_g6k8r"]
+[ext_resource type="Texture2D" uid="uid://cen5khq5f2rux" path="res://player/sprites/hero.png" id="7_boad6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_txtv6"]
 size = Vector2(16, 46)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g6k8r"]
+size = Vector2(16, 30)
+
+[sub_resource type="Animation" id="Animation_boad6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [20]
+}
+
+[sub_resource type="Animation" id="Animation_rgyib"]
+resource_name = "crouch"
+length = 0.19999999999999998
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [20, 21, 22, 23]
+}
+
+[sub_resource type="Animation" id="Animation_hg6s5"]
+resource_name = "idle"
+
+[sub_resource type="Animation" id="Animation_8t03j"]
+resource_name = "jump"
+
+[sub_resource type="Animation" id="Animation_2ieo8"]
+resource_name = "run"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [14, 15, 16, 17, 18, 19, 12, 13]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ebec5"]
+_data = {
+&"RESET": SubResource("Animation_boad6"),
+&"crouch": SubResource("Animation_rgyib"),
+&"idle": SubResource("Animation_hg6s5"),
+&"jump": SubResource("Animation_8t03j"),
+&"run": SubResource("Animation_2ieo8")
+}
+
 [node name="Player" type="CharacterBody2D" unique_id=1161652229]
+collision_layer = 0
+collision_mask = 3
 script = ExtResource("1_oul6g")
 move_speed = 200.0
 
@@ -35,15 +103,30 @@ metadata/_custom_type_script = "uid://dxuei03o0usmg"
 [node name="Fall" type="Node" parent="States" unique_id=1531482353]
 unique_name_in_owner = true
 script = ExtResource("5_qjkh3")
+coyote_time = 0.125
+metadata/_custom_type_script = "uid://dxuei03o0usmg"
+
+[node name="Crouch" type="Node" parent="States" unique_id=1432000469]
+unique_name_in_owner = true
+script = ExtResource("6_g6k8r")
 metadata/_custom_type_script = "uid://dxuei03o0usmg"
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1610992881]
-texture = SubResource("PlaceholderTexture2D_txtv6")
+position = Vector2(0, -16)
+texture = ExtResource("7_boad6")
 offset = Vector2(0, -24)
+hframes = 16
+vframes = 4
+frame = 20
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=823881088]
+[node name="CollisionStand" type="CollisionShape2D" parent="." unique_id=823881088]
 position = Vector2(0, -24)
 shape = SubResource("RectangleShape2D_txtv6")
+
+[node name="CollisionCrouch" type="CollisionShape2D" parent="." unique_id=919566041]
+position = Vector2(0, -16)
+shape = SubResource("RectangleShape2D_g6k8r")
+disabled = true
 
 [node name="Label" type="Label" parent="." unique_id=1998408991]
 anchors_preset = -1
@@ -61,4 +144,10 @@ theme_override_font_sizes/font_size = 12
 text = "state"
 horizontal_alignment = 1
 
-[node name="Debug Jump Indicator" parent="." unique_id=1072138611 instance=ExtResource("6_g6k8r")]
+[node name="OneWayPlatformRaycast" type="RayCast2D" parent="." unique_id=344792331]
+target_position = Vector2(0, 4)
+collision_mask = 2
+hit_from_inside = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=732035633]
+libraries/ = SubResource("AnimationLibrary_ebec5")
